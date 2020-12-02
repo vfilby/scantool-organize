@@ -1,0 +1,30 @@
+rules:
+  # Let's rename all scanned files that have been renamed, leave anything that starts with
+  # scan in the directory
+  #
+  # (Category!)group - (YYYY - )YYYY-MM-DD - desc.pdf
+  #
+  # If category is specified use that as the sort folder, otherwise fall back on group.
+  # If a specific year is given that is used, otherwise the document date is used, good
+  # for income tax, etc.
+  #
+  # Examples:
+  #  Category 1!TaxDoc - 2018 - 2020-11-04 - EOB.pdf
+  #  -> ./Category 1/2018/TaxDoc - 2018 - 2020-11-04 - EOB.pdf
+  #
+  #  Rando - 2020-03-01 - Explanation.pdf
+  #  -> ./Rando/2020/Rando - 2020-03-01 - Explanation.pdf
+  #
+  - folders:
+      - '/mnt/to-sort/*'
+      - '! /mnt/to-sort/scan *'
+    filters:
+      - regex: '((?P<category>[^!]*)!)?(?P<filename>(?P<group>[^-]*) - ((?P<taxyear>\d{4}) - )?(?P<year>\d{4})-\d{1,2}-\d{1,2} - .*)'
+      - python: |
+          return {
+            "sort_folder": regex.category or regex.group,
+            "sort_year": regex.taxyear or regex.year
+          }
+    actions:
+      - move: '/mnt/sorted/{python.sort_folder}/{python.sort_year}/{regex.filename}'
+      - shell: '/organizetool/test-script.sh "Sorted {regex.filename}" "Moved \"{regex.filename}\" to \"{python.sort_folder}/{python.sort_year}\""'
