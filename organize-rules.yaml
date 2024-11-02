@@ -16,14 +16,14 @@ rules:
   #  -> ./Rando/2020/Rando - 2020-03-01 - Explanation.pdf
   #
   - locations:
-      - '/mnt/to-sort/*'
-      - '! /mnt/to-sort/scan *'
+      - path: '/mnt/to-sort/'
+        exclude_files: 'scan *'
     filters:
       - regex: '((?P<category>[^!]*)!)?(?P<filename>(?P<group>[^-]*) - ((?P<taxyear>\d{4}) - )?(?P<year>\d{4})-\d{1,2}-\d{1,2} - .*)'
       - python: |
           return {
-            "sort_folder": regex.category or regex.group,
-            "sort_year": regex.taxyear or regex.year
+            "sort_folder": regex['category'] or regex['group'],
+            "sort_year": regex['taxyear'] or regex['year']
           }
     actions:
       - move: '/mnt/sorted/{python.sort_folder}/{python.sort_year}/{regex.filename}'
