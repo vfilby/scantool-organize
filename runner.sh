@@ -6,6 +6,6 @@ INTERVAL="${ORGANIZE_INTERVAL:-60}"
 echo "Starting... will organize every $INTERVAL seconds."
 
 while true; do
-  organize run --config /organizetool/organize-rules.yaml
+  organize run /organizetool/organize-rules.yaml
   sleep $INTERVAL
 done

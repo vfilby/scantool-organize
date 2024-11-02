@@ -15,7 +15,7 @@ rules:
   #  Rando - 2020-03-01 - Explanation.pdf
   #  -> ./Rando/2020/Rando - 2020-03-01 - Explanation.pdf
   #
-  - folders:
+  - locations:
       - '/mnt/to-sort/*'
       - '! /mnt/to-sort/scan *'
     filters:

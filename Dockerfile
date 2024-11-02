@@ -1,9 +1,8 @@
-FROM python:3-slim-buster
+FROM ghcr.io/linuxserver/baseimage-alpine:3.20
 
-RUN pip3 install organize-tool
-RUN apt-get update && apt-get install -y --no-install-recommends \
-  vim \
-  curl
+RUN apk add pipx vim curl
+ENV PATH="$PATH:/root/.local/bin"
+RUN pipx install organize-tool
 
 RUN mkdir -p /organizetool
 

@@ -20,14 +20,18 @@ docker-dryrun: docker runtime-config
 		-v $(shell pwd)/runtime/sorted:/mnt/sorted \
 		-v $(shell pwd)/organize-rules.yaml:/organizetool/organize-rules.yaml:ro \
 		-v $(shell pwd)/test-script.sh:/organizetool/test-script.sh:ro \
-		scanman-organizetool:development organize sim --config /organizetool/organize-rules.yaml
+		-e PUID=3005 \
+		-e PGID=3005 \
+		scanman-organizetool:development organize sim /organizetool/organize-rules.yaml
 
 docker-shell: docker runtime-config
 	docker run --rm -it \
 	  -v $(shell pwd)/runtime/to-sort:/mnt/to-sort \
 		-v $(shell pwd)/runtime/sorted:/mnt/sorted \
-		-v $(shell pwd)/organize-rules.yaml:/organizetool/organize-rules.yaml:ro \
-		-v $(shell pwd)/test-script.sh:/organizetool/test-script.sh:ro \
+		-v $(shell pwd)/organize-rules.yaml:/organizetool/organize-rules.yaml \
+		-v $(shell pwd)/test-script.sh:/organizetool/test-script.sh \
+		-e PUID=3005 \
+		-e PGID=3005 \
 		scanman-organizetool:development bash
 
 docker-runner: docker runtime-config
@@ -37,6 +41,8 @@ docker-runner: docker runtime-config
 		-v $(shell pwd)/organize-rules.yaml:/organizetool/organize-rules.yaml:ro \
 		-v $(shell pwd)/test-script.sh:/organizetool/test-script.sh:ro \
 		-e ORGANIZE_INTERVAL=10 \
+		-e PUID=3005 \
+		-e PGID=3005 \
 		scanman-organizetool:development
 
 clean:
