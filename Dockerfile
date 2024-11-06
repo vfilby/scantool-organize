@@ -7,4 +7,4 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # copy local files
 COPY root/ /
 
-CMD ["/organizetool/runner.sh"]
+CMD ["/app/runner.sh"]
