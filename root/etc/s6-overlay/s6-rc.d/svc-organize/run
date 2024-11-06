@@ -1,0 +1,10 @@
+#!/usr/bin/with-contenv bash
+# shellcheck shell=bash
+
+source /app/bin/activate
+
+#exec \
+#    s6-notifyoncheck -d -n 300 -w 1000 \
+#        s6-setuidgid abc /app/runner.sh
+#
+execlineb -P -c "s6-setuidgid abc organize" # sim /app/organize-rules.yaml"

@@ -1,11 +1,14 @@
 FROM ghcr.io/linuxserver/baseimage-alpine:3.20
 
-RUN apk add pipx vim curl
-ENV PATH="$PATH:/root/.local/bin"
-RUN pipx install organize-tool
+RUN apk add py3-pip vim curl
 
-RUN mkdir -p /organizetool
+# copy local files
+COPY root/ /
 
-COPY runner.sh /organizetool/runner.sh
+RUN python3 -m venv /app
+RUN . /app/bin/activate
+ENV VIRTUAL_ENV /app
+ENV PATH /app/bin:$PATH  
 
-CMD ["/organizetool/runner.sh"]
+RUN /app/bin/pip3 install organize-tool
+#RUN pip3 install organize-tool --break-system-packages
