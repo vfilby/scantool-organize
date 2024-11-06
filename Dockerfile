@@ -1,14 +1,10 @@
-FROM ghcr.io/linuxserver/baseimage-alpine:3.20
+FROM python:3-slim-buster
 
-RUN apk add py3-pip vim curl
-
+RUN pip3 install organize-tool
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  vim \
+  curl
 # copy local files
 COPY root/ /
 
-RUN python3 -m venv /app
-RUN . /app/bin/activate
-ENV VIRTUAL_ENV /app
-ENV PATH /app/bin:$PATH  
-
-RUN /app/bin/pip3 install organize-tool
-#RUN pip3 install organize-tool --break-system-packages
+CMD ["/organizetool/runner.sh"]
