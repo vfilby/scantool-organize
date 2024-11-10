@@ -1,7 +1,7 @@
 UID=3005
 GID=3005
 
-docker:
+docker: Dockerfile
 	docker build -t scantool-organize:development .
 
 runtime-config: clean
