@@ -11,6 +11,6 @@ fi
 echo "Starting... will organize every $INTERVAL seconds."
 
 while true; do
-  echo organize $CMD /app/organize-rules.yaml
+  organize $CMD /app/organize-rules.yaml
   sleep $INTERVAL
 done
