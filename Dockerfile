@@ -6,7 +6,8 @@ ARG GID
 RUN pip3 install organize-tool
 RUN apt-get update && apt-get install -y --no-install-recommends \
   vim \
-  curl
+  curl \
+  acl
 
 # copy local files
 COPY root/ /
